@@ -34,11 +34,14 @@ function App() {
       .then(result => {
         
         const image = document.getElementById('faceRecognitionId');
+        
         const width = Number(image.width);
         const height = Number(image.height);
+        console.log(image, width, image.width, height, image.height)
         let temp_boxes = [];
 
         result.forEach( data => {
+          console.log(data.leftCol)
           temp_boxes.push(
             {
               leftCol : data.leftCol * width,
