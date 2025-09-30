@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import './App.css'
-import Navigation from './components/navigation/Navigation'
-import Logo from './components/logo/Logo'
-import ImageLinkForm from './components/imagelinkform/ImageLinkForm'
-import FaceRecognition from './components/facerecognition/FaceRecognition'
-import Rank from './components/rank/Rank'
-
+import Navigation from './components/Navigation/Navigation'
+import Logo from './components/Logo/Logo'
+import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm'
+import FaceRecognition from './components/FaceRecognition/FaceRecognition'
+import Rank from './components/Rank/Rank'
+import Signin from './components/Signin/Signin'
+import Register from './components/Register/Register'
 
 const PAT = 'c202b98b870747779bb281dee2f392e6';
 const USER_ID = 'clarifai';
@@ -18,8 +19,8 @@ function App() {
   const ref = useRef('');
   const [imgUrl, setImgUrl] = useState(null);
   const [boxes, setBoxes] = useState([]);
-  
-
+  const [route, setRoute] = useState('signin');
+  const [isSignedIn, setIsSignedIn] = useState(false);
   
   useEffect( () => {
     if(imgUrl !== null){
@@ -70,13 +71,36 @@ function App() {
     setImgUrl(ref.url);
 }
 
+const onRouteChange = (route) => {
+  if(route === 'signout'){
+    setIsSignedIn(false);
+  }
+  else if(route === 'home'){
+    setIsSignedIn(true);
+  }
+
+  setRoute(route);
+};
+
   return (
     <div className='App'>
-      <Navigation/>
-      <Logo/>
-      <Rank />
-      <ImageLinkForm onInputChange = {onInputChange} onSubmit = {onSubmit}/>      
-      <FaceRecognition imgUrl = {imgUrl} boxes = {boxes}/>     
+      <Navigation onRouteChange={onRouteChange} isSignedIn = {isSignedIn} />
+      {
+        route === 'signin' ?
+        <Signin onRouteChange={onRouteChange}/>
+        : (
+          route === 'home' ?
+            <>
+              <Logo/>
+              <Rank name={'Seba'} entries={5}/>
+              <ImageLinkForm onInputChange = {onInputChange} onSubmit = {onSubmit}/>      
+              <FaceRecognition imgUrl = {imgUrl} boxes = {boxes}/> 
+            </>
+            :
+            <Register onRouteChange={onRouteChange}/>
+        )
+
+       } 
     </div>
   )
 }

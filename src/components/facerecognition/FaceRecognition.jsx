@@ -9,7 +9,7 @@ console.log('face recognition', boxes)
     <>
     <div className='center ma'>
         <div className="center absolute mt2">
-            <img id="faceRecognitionId" className="face-recognition-img" alt="" src={imgUrl} width='500px' heigh='auto'></img>
+            <img id="faceRecognitionId" alt="" src={imgUrl} width='500px' heigh='auto'></img>
             {
                 
                 boxes.map((box) => (
