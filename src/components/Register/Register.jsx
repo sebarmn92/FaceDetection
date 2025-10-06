@@ -1,4 +1,37 @@
+import { useState, useEffect } from 'react'
+
 const Register = ({ onRouteChange }) => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    onNameChange = (event) =>{
+        setName(event.target.value)
+    }
+
+    onEmailChange = (event) =>{
+        setEmail(event.target.value)
+    }
+
+    onPasswordChange = (event) =>{
+        setPassword(event.target.value)
+    }
+
+    onSubmitRegister = () =>{
+        fetch("http://localhost:3000/register", {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+            "name" : name,
+            "email": email,
+            "password": password
+            })
+        }).then( Response.json()).then( result => {
+        if(user === name ){
+            onRouteChange('signin')
+        }
+        })    
+    }
 
     return(
         <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
@@ -8,23 +41,23 @@ const Register = ({ onRouteChange }) => {
                     <legend className="f1 fw6 ph0 mh0">Register</legend>
 
                     <div className="mt3">
-                        <label className="db fw6 lh-copy f6" for="user-name">Name</label>
-                        <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="user-name"  id="user-name" />
+                        <label className="db fw6 lh-copy f6" htmlFor="user-name">Name</label>
+                        <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" onChange={onNameChange} type="text" name="user-name"  id="user-name" />
                     </div>
 
                     <div className="mt3">
-                        <label className="db fw6 lh-copy f6" for="email-address">Email</label>
-                        <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address" />
+                        <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+                        <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" onChange={onEmailChange} type="email" name="email-address"  id="email-address" />
                     </div>
 
                     <div className="mv3">
-                        <label className="db fw6 lh-copy f6" for="password">Password</label>
-                        <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password" />
+                        <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+                        <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" onChange={onPasswordChange} type="password" name="password"  id="password" />
                     </div>
 
                     </fieldset>
                     <div className="">
-                        <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick ={() => onRouteChange('home')} type="submit" value="Register" />
+                        <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick ={onSubmitRegister} type="submit" value="Register" />
                     </div>
 
                 </form>

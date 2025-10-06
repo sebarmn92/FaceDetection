@@ -32,12 +32,19 @@ function App() {
           })
       })
       .then(response => response?.json())
-      .then(result => {
-        
-        const image = document.getElementById('faceRecognitionId');
-        
+      .then(result => {        
+        const image = document.getElementById('faceRecognitionId');        
         const width = Number(image.width);
         const height = Number(image.height);
+
+      fetch("http://localhost:3000/image", {
+          method: 'put',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            "id": 0
+          })
+      })
+
         console.log(image, width, image.width, height, image.height)
         let temp_boxes = [];
 
