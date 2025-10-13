@@ -5,19 +5,19 @@ const Register = ({ onRouteChange }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    onNameChange = (event) =>{
+    const onNameChange = (event) =>{
         setName(event.target.value)
     }
 
-    onEmailChange = (event) =>{
+    const onEmailChange = (event) =>{
         setEmail(event.target.value)
     }
 
-    onPasswordChange = (event) =>{
+    const onPasswordChange = (event) =>{
         setPassword(event.target.value)
     }
 
-    onSubmitRegister = () =>{
+    const onSubmitRegister = () =>{
         fetch("http://localhost:3000/register", {
             method: 'post',
             headers: {'Content-Type':'application/json'},
@@ -26,17 +26,21 @@ const Register = ({ onRouteChange }) => {
             "email": email,
             "password": password
             })
-        }).then( Response.json()).then( result => {
-        if(user === name ){
-            onRouteChange('signin')
-        }
+        }).then( data => data.json()).then( result => {
+            
+            if(result?.success ){
+                onRouteChange('signin')
+            }
+            else{
+                result?.error === true ? alert('something went wrong. contact admin') : alert('email already used')
+            }
         })    
     }
 
     return(
         <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
             <main className="pa4 black-80">
-                <form className="measure">
+                <div className="measure">
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                     <legend className="f1 fw6 ph0 mh0">Register</legend>
 
@@ -60,7 +64,7 @@ const Register = ({ onRouteChange }) => {
                         <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick ={onSubmitRegister} type="submit" value="Register" />
                     </div>
 
-                </form>
+                </div>
             </main>
         </article>
     )
