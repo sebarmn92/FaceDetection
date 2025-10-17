@@ -26,13 +26,14 @@ const Register = ({ onRouteChange }) => {
             "email": email,
             "password": password
             })
-        }).then( data => data.json()).then( result => {
+        }).then( (data) => {
             
-            if(result?.success ){
-                onRouteChange('signin')
+            if(data.status !== 200){
+                
+                data.json().then(alert)
             }
             else{
-                result?.error === true ? alert('something went wrong. contact admin') : alert('email already used')
+                onRouteChange('signin')
             }
         })    
     }

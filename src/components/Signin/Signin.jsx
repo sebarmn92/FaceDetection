@@ -21,14 +21,17 @@ const Signin = ({ onRouteChange }) => {
             "email": email,
             "password": password
           })
-      }).then( data => data.json()).then( result => {
-        if(result?.success === true ){
-            onRouteChange('home')
+      }).then( (data) => {
+        if(data.status === 200){
+            data.json().then(result =>{
+                
+                onRouteChange('home')
+            })    
         }
         else{
-            alert('wrong username or password')
+            data.json().then(alert)
         }
-      })
+      })         
     }
 
     return(
