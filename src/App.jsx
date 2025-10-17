@@ -20,7 +20,7 @@ function App() {
   const [imgUrl, setImgUrl] = useState(null);
   const [boxes, setBoxes] = useState([]);
   const [route, setRoute] = useState('signin');
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
   
   useEffect( () => {
     if(imgUrl !== null){
@@ -41,15 +41,26 @@ function App() {
           method: 'put',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({
-            "id": 0
+            "id": userData.id,
+            "entries": (Number(userData?.entries) + 1)
           })
+      }).then((res) => {
+        if(res.status === 200){
+          res.json().then((data) => {
+            setUserData({
+              id : userData.id,
+              name : userData.name,
+              email : userData.email,
+              entries : data,
+              joined: userData.joined
+            })
+          })
+        }     
       })
 
-        console.log(image, width, image.width, height, image.height)
         let temp_boxes = [];
 
         result.forEach( data => {
-          console.log(data.leftCol)
           temp_boxes.push(
             {
               leftCol : data.leftCol * width,
@@ -78,20 +89,19 @@ function App() {
     setImgUrl(ref.url);
 }
 
-const onRouteChange = (route) => {
+const onRouteChange = (route, data) => {
   if(route === 'signout'){
-    setIsSignedIn(false);
+    setUserData(null);
   }
   else if(route === 'home'){
-    setIsSignedIn(true);
+    setUserData(data);
   }
 
   setRoute(route);
 };
-
   return (
     <div className='App'>
-      <Navigation onRouteChange={onRouteChange} isSignedIn = {isSignedIn} />
+      <Navigation onRouteChange={onRouteChange} isSignedIn = {userData?.id !== undefined ? true : false} />
       {
         route === 'signin' ?
         <Signin onRouteChange={onRouteChange}/>
@@ -99,7 +109,7 @@ const onRouteChange = (route) => {
           route === 'home' ?
             <>
               <Logo/>
-              <Rank name={'Seba'} entries={5}/>
+              <Rank name={userData?.name} entries={userData?.entries}/>
               <ImageLinkForm onInputChange = {onInputChange} onSubmit = {onSubmit}/>      
               <FaceRecognition imgUrl = {imgUrl} boxes = {boxes}/> 
             </>

@@ -2,9 +2,6 @@ import './FaceRecognition.css'
 
 const FaceRecognition = ({imgUrl, boxes}) => {
 
-
-console.log('face recognition', boxes)
-
     return(
     <>
     <div className='center ma'>
@@ -14,7 +11,7 @@ console.log('face recognition', boxes)
                 
                 boxes.map((box) => (
                     
-                                    <div  key={box} className='bounding-box' style={{
+                                    <div  key={box.topRow} className='bounding-box' style={{
                                                 top: box.topRow+'px',
                                                 right: box.rightCol+'px',
                                                 bottom: box.bottomRow+'px',

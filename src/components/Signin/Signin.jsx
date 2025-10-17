@@ -25,7 +25,7 @@ const Signin = ({ onRouteChange }) => {
         if(data.status === 200){
             data.json().then(result =>{
                 
-                onRouteChange('home')
+                onRouteChange('home', result)
             })    
         }
         else{

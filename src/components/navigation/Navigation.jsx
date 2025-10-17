@@ -8,7 +8,7 @@ const Navigation = ({onRouteChange, isSignedIn}) => {
         isSignedIn === true ?
         
             <nav className="navbar">
-                <p onClick = {() => onRouteChange('signout')} className='f3 link dim black underline pa3 pointer'>Sign Out</p>
+                <p onClick = {() => onRouteChange('signin')} className='f3 link dim black underline pa3 pointer'>Sign Out</p>
             </nav>
         
         :
