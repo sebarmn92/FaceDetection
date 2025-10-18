@@ -24,6 +24,7 @@ function App() {
   
   useEffect( () => {
     if(imgUrl !== null){
+      setBoxes([])
       fetch("http://localhost:3000/detectface", {
           method: 'post',
           headers: {'Content-Type':'application/json'},
@@ -94,6 +95,8 @@ const onRouteChange = (route, data) => {
     setUserData(null);
   }
   else if(route === 'home'){
+    setImgUrl(null);
+    setBoxes([]);
     setUserData(data);
   }
 
