@@ -126,12 +126,15 @@ const onRouteChange = (route, data) => {
     setBoxes([]);
     setUserData(data);
   }
+  else if(route === 'signin'){
+    setUserData(null);
+  }
 
   setRoute(route);
 };
   return (
     <div className='App'>
-      <Navigation onRouteChange={onRouteChange} isSignedIn = {userData?.id !== undefined ? true : false} />
+      <Navigation onRouteChange={onRouteChange} route={route} isSignedIn = {userData?.id !== undefined ? true : false} />
       {
         route === 'signin' ?
         <Signin onRouteChange={onRouteChange}/>
