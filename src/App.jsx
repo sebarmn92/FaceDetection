@@ -22,6 +22,29 @@ function App() {
   const [route, setRoute] = useState('signin');
   const [userData, setUserData] = useState(null);
   
+  useEffect( () =>{
+    const token = window.sessionStorage.getItem('token')
+    if(token){
+      fetch("http://localhost:3000/signin", {
+        method: 'post',
+        headers: {
+          'Content-Type':'application/json',
+          // 'Authorization' : 'Bearer ' + token   -> research Bearer
+          'Authorization' : token
+        }
+      }).then( (data) => {
+        if(data.status === 200){
+            data.json().then(result =>{
+                onRouteChange('home', result)
+            })    
+        }
+        else{
+            data.json().then(alert)
+        }
+      }) 
+    }
+  }, [])
+
   useEffect( () => {
     if(imgUrl !== null){
       setBoxes([])
@@ -78,6 +101,8 @@ function App() {
       })
     }
   }, [imgUrl]);
+
+  
 
   const onInputChange = (event) =>{
     if(event.target.value === '' ) return;

@@ -13,6 +13,10 @@ const Signin = ({ onRouteChange }) => {
         setPassword(event.target.value)
     }
 
+    const saveAuthTokenInSession = (token) => {
+        window.sessionStorage.setItem('token', token)
+    }
+
     const onSubmitSignIn = () =>{
         fetch("http://localhost:3000/signin", {
             method: 'post',
@@ -24,8 +28,14 @@ const Signin = ({ onRouteChange }) => {
       }).then( (data) => {
         if(data.status === 200){
             data.json().then(result =>{
-                
-                onRouteChange('home', result)
+                console.log(result)
+                if(result.success === true){
+                    saveAuthTokenInSession(result.token)
+                    onRouteChange('home', result.profile)
+                }
+                else{
+                    alert("Wrong Email or Password")
+                }
             })    
         }
         else{
